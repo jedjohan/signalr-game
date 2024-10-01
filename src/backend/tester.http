@@ -1,0 +1,49 @@
+@baseUrl = https://localhost:7501
+
+@projectId = 17de7cc8-e2a7-491d-8a8f-70990d079aa1
+@sampleId = 5f22d704-4b8d-480c-bbd3-2bcf8566d1cc
+@audienceId = b6c44572-fd0d-4731-9936-d943c9fb89e7
+@batchId = c0c419e8-8f90-4310-acd1-a1da92454778
+
+
+
+### Get Teams
+GET {{baseUrl}}/teams
+
+### Get Games
+GET {{baseUrl}}/games
+
+### Create Team
+POST {{baseUrl}}/teams
+Content-Type: application/json
+
+{
+  "name": "team#1",
+  "description": "Wohoo",
+  "Location": {
+      "Type": "Point",
+      "Coordinates": [
+        -73.935242,
+        40.73061
+      ]
+    }
+}
+
+### Create game
+POST {{baseUrl}}/games
+Content-Type: application/json
+
+{
+  "name": "game#1",
+  "description": "Wohoo",
+  "teamId": "5f22d704-4b8d-480c-bbd3-2bcf8566d1cc",
+}
+
+### Join game
+POST {{baseUrl}}/games
+Content-Type: application/json
+
+{
+  "name": "game#1",
+  "teamId": "5f22d704-4b8d-480c-bbd3-2bcf8566d1cc",
+}

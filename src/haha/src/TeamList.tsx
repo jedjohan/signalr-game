@@ -11,8 +11,8 @@ function TeamList ({ refresh }: TeamListProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const copyToClipboard = (teamId: string) => {
-    navigator.clipboard.writeText(teamId)
+  const copyToClipboard = (teamId?: string) => {
+    navigator.clipboard.writeText(teamId!)
       .then(() => {
         console.log(`Copied Team ID: ${teamId}`);
       })
@@ -48,15 +48,13 @@ function TeamList ({ refresh }: TeamListProps) {
         <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
           <ul>
             {teams.map((team) => (
-              <li key={team.id}>
-                <strong>{team.name}</strong> - {team.description}
+              <li key={team.teamId}>
+                <strong>{team.teamName}</strong>
                 <br />
-                <em>Location:</em> {team.location.coordinates.join(', ')} {/* Render the coordinates */}
-                <br />
-                <em>TeamId:</em> {team.id} {/* Render the team ID */}
+                <em>TeamId:</em> {team.teamId} {/* Render the team ID */}
                 <br />
                 {/* Button to copy the team ID */}
-                <button onClick={() => copyToClipboard(team.id)}>Copy Team ID</button>
+                <button onClick={() => copyToClipboard(team.teamId)}>Copy Team ID</button>
               </li>
             ))}
           </ul>

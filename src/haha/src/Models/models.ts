@@ -4,12 +4,27 @@ interface GeoJSONPoint {
     coordinates: [number, number]; // [longitude, latitude]
   }
   
-  interface Team {
-    id: string;
-    name: string;
-    description: string;
-    location: GeoJSONPoint;
-  }
+  interface GeoLocation {
+    latitude: number;
+    longitude: number;
+}
+
+interface Team {
+    teamId?: string;
+    teamScore: number;
+    captainSelected: boolean;
+    captainId?: string;
+    teamName?: string;
+    location: GeoLocation;
+    teamIsReadyToStart: boolean;
+    teamCanTravel: boolean;
+    lockedEndTime: Date;
+    wantsToPause: boolean;
+    completedChallenges?: string[];
+    teamColor: string;
+    numberOfCoins: number;
+}
+
   
   interface Game {
     id: string;

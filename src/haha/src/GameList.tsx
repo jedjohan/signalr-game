@@ -63,12 +63,12 @@ const copyToClipboard = (gameId: string) => {
               <br />
               {game.team1 && (
                 <div>
-                  <strong>Team 1:</strong> {game.team1.name}
+                  <strong>Team 1:</strong> {game.team1.teamName}
                 </div>
               )}
               {game.team2 && (
                 <div>
-                  <strong>Team 2:</strong> {game.team2.name}
+                  <strong>Team 2:</strong> {game.team2.teamName}
                 </div>
               )}
               {/* Additional teams can be added here if applicable */}

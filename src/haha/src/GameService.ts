@@ -1,6 +1,6 @@
 import { Game } from './Models/models';
 
-const BASE_URL = 'https://localhost:7501/games';
+const BASE_URL = 'https://localhost:8080/games';
 
 export const fetchGames = async (): Promise<Game[]> => {
   const response = await fetch(`${BASE_URL}`);

@@ -1,10 +1,10 @@
 import { Team } from './Models/models';
 
-const BASE_URL = 'https://localhost:7501/teams/';
+const BASE_URL = 'https://localhost:8080/teams/';
 
 // Fetch teams and return as Team[]
 export const fetchTeams = async (): Promise<Team[]> => {
-  const response = await fetch('https://localhost:7501/teams');
+  const response = await fetch(`${BASE_URL}`);
   if (!response.ok) {
     throw new Error('Failed to fetch teams');
   }

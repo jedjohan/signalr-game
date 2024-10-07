@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-const URL = process.env.HUB_ADDRESS ?? "https://localhost:7501/hub";
+const URL = process.env.HUB_ADDRESS ?? "https://localhost:8080/hub";
 
 class Connector {
     private connection: signalR.HubConnection;

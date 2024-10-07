@@ -18,22 +18,28 @@ public class SignalRHub : Hub
 
     public async Task JoinGroup(string groupName, CancellationToken ct)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, groupName, ct);
-        await Clients.Group(groupName).SendAsync("GroupJoined", Context.ConnectionId, cancellationToken: ct);
+        if (Clients is not null)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName, ct);
+            await Clients.Group(groupName).SendAsync("GroupJoined", Context.ConnectionId, cancellationToken: ct);
+        }
     }
 
     public async Task SendMessage(string user, string message, CancellationToken ct)
     {
-        await Clients.All.SendAsync("ReceiveMessage", user, message, cancellationToken: ct);
+        if (Clients is not null)
+            await Clients.All.SendAsync("ReceiveMessage", user, message, cancellationToken: ct);
     }
 
     public async Task SendMessageToGroup(string groupName, string type, string message, CancellationToken ct)
     {
-        await Clients.Group(groupName).SendAsync(type, message, cancellationToken: ct);
+        if (Clients is not null)
+            await Clients.Group(groupName).SendAsync(type, message, cancellationToken: ct);
     }
 
     public async Task SendMessageToAll(string type, string message, CancellationToken ct)
     {
-        await Clients.All.SendAsync(type, message, cancellationToken: ct);
+        if (Clients is not null)
+            await Clients.All.SendAsync(type, message, cancellationToken: ct);
     }
 }

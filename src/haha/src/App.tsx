@@ -6,7 +6,9 @@ import GetGameStatus from './components/GetGameStatus';
 import GameUpdates from './components/GameUpdates';
 import LocationUpdates from './components/LocationUpdates';
 import GameList from './components/GameList';
-import { GameSessionResponse, sessionStatusMapping } from './Models/models'; // Import added
+import { GameSessionResponse, sessionStatusMapping } from './Models/models';
+import { useGlobalState } from './context/GlobalStateContext';
+
 
 function App() {
   const { newMessage, events } = Connector();
@@ -14,7 +16,9 @@ function App() {
   const [refreshGames, setRefreshGames] = useState(false);
   const [locationUpdates, setLocationUpdates] = useState<{ teamName: string; location: any }[]>([]);
   const [gameUpdates, setGameUpdates] = useState<{ data: any }[]>([]);
-  const [selectedGame, setSelectedGame] = useState<GameSessionResponse | null>(null); // Use the imported type
+  const [selectedGame, setSelectedGame] = useState<GameSessionResponse | null>(null);
+
+  const { joinedTeamId, setJoinedTeamId } = useGlobalState();
 
   useEffect(() => {
     events(
@@ -42,6 +46,14 @@ function App() {
     setSelectedGame(game);
   };
 
+  const handleJoinTeam = (teamId: string | undefined) => {
+    setJoinedTeamId(teamId || null); // Pass null if teamId is undefined
+    console.log(`${teamId} has been joined and global var is now ${joinedTeamId}` );
+    if (teamId) {
+      window.location.href = `/games/joinedGame`; // Redirect to another React component
+    }
+  };
+
   return (
     <div className="App">
       <div className="left-column">
@@ -62,7 +74,16 @@ function App() {
             <p>Map ID: {selectedGame.mapId}</p>
             <p>Game Length: {selectedGame.gameLength}</p>
             <p>Game Status: {sessionStatusMapping[selectedGame.sessionStatus]}</p>
-            {/* Add more details as needed */}
+            {selectedGame.team1 && (
+              <button onClick={() => handleJoinTeam(selectedGame.team1?.teamId)}>
+                Join {selectedGame.team1.teamName}
+              </button>
+            )}
+            {selectedGame.team2 && (
+              <button onClick={() => handleJoinTeam(selectedGame.team2?.teamId)}>
+                Join {selectedGame.team2.teamName}
+              </button>
+            )}
           </div>
         )}
       </div>

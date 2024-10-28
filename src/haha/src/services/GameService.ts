@@ -35,16 +35,16 @@ export const createGame = async (mapId: string, gameLength: number): Promise<voi
   }
 };
 
-export const joinTeam = async (gameSessionId: string, teamName: string): Promise<void> => {
+export const joinTeamWithId = async (gameSessionId: string, teamId: string): Promise<void> => {
   const gameData = {
     gameSessionId,
-    teamName,
+    teamId,
   };
 
   console.log('game joined, gameId:', gameSessionId); // Log the response
   console.log('json:', JSON.stringify(gameData)); // Log the response
 
-  const response = await fetch(`https://localhost:8080/teams`, {
+  const response = await fetch(`https://localhost:8080/games/${gameSessionId}/${teamId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

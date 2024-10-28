@@ -73,5 +73,6 @@ export {
   type TravelruleResponse,
   type AreaInSession,
   type GeoPoint,
+  type SessionStatus,
   sessionStatusMapping
 };

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTeams } from './TeamService';
-import { Team } from './Models/models';
+import { fetchTeams } from '../services/TeamService';
+import { TeamResponse } from '../Models/models';
 
 interface TeamListProps {
   refresh: boolean;
 }
 
 function TeamList ({ refresh }: TeamListProps) {
-  const [teams, setTeams] = useState<Team[]>([]); // State expects an array of Team objects
+  const [teams, setTeams] = useState<TeamResponse[]>([]); // State expects an array of Team objects
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 

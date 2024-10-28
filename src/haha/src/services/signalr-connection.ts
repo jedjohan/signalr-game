@@ -12,10 +12,28 @@ class Connector {
     static instance: Connector;
 
     constructor() {
-        this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(URL)
-            .withAutomaticReconnect()
-            .build();
+        const builder = new signalR.HubConnectionBuilder()
+        .withUrl(URL)
+        .withStatefulReconnect({ bufferSize: 1000 });
+        this.connection = builder.build();
+
+            this.connection.onreconnecting((error) => {
+                console.warn(`Connection lost due to ${error?.message}. Reconnecting...`);
+                // Optionally, notify the user that the connection is lost and the client is attempting to reconnect.
+            });
+    
+            // Handle successful reconnection
+            this.connection.onreconnected((connectionId) => {
+                console.log(`Reconnected with new connectionId: ${connectionId}`);
+                // You might need to re-sync session data or send a signal to the server that the client is back.
+                // For example, re-send team updates, location updates, etc.
+            });
+    
+            // Handle connection closed permanently (when reconnection attempts fail)
+            this.connection.onclose((error) => {
+                console.error(`Connection closed due to error: ${error?.message}`);
+                // Handle the permanent loss of connection, e.g., notify the user and offer a retry button
+            });
 
         // Start the connection
         this.connection.start()
@@ -27,7 +45,7 @@ class Connector {
         // Define the events method to listen for messages
         this.events = (onMessageReceived, onLocationUpdated, onGameCreated, onGameJoined) => {
             // Listen for the "messageReceived" event
-            this.connection.on("messageReceived", (username, message) => {
+            this.connection.on("ReceiveMessage", (username, message) => {
                 console.log(`Received message from ${username}: ${message}`); // Log the received message
                 onMessageReceived(username, message); // Call the provided callback
             });

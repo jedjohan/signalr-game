@@ -1,20 +1,35 @@
 /* Global app styles */
 .App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 200vh;
-  width: flex;
-  margin-left: 300px;
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
 }
 
-/* Message container */
+.left-column,
+.center-column,
+.right-column {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .message-container {
   margin-bottom: 20px;
-  font-size: 1.2em;
+}
+
+.button {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
 }
 
 /* Message label and value styling */

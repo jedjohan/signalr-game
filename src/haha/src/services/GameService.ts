@@ -35,27 +35,6 @@ export const createGame = async (mapId: string, gameLength: number): Promise<voi
   }
 };
 
-export const createDefaultGame = async (): Promise<void> => {
-  const gameData = {
-    "mapId":"sic001",
-    "gameLength":180
-  };
-
-  console.log('json:', JSON.stringify(gameData)); // Log the response
-
-  const response = await fetch(`${BASE_URL}/createdefault`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(gameData),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-};
-
 export const joinTeam = async (gameSessionId: string, teamName: string): Promise<void> => {
   const gameData = {
     gameSessionId,
@@ -91,11 +70,17 @@ export const deleteTeam = async (id: string): Promise<void> => {
 };
 
 export const getGameStatus = async (gameSessionId: string): Promise<GameSessionResponse> => {
-  // Fetch the game status from the backend
   const response = await fetch(`${BASE_URL}/${gameSessionId}`);
+
   if (!response.ok) {
     throw new Error('Failed to fetch game status');
   }
   const gameSession: GameSessionResponse = await response.json();
+  console.log('Getting game dfdfdfdf for session:', gameSession);
+
+  // Ensure gameLength is parsed correctly as an integer
+  gameSession.gameLength = Number(gameSession.gameLength);
+
   return gameSession;
 };
+

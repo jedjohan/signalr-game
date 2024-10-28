@@ -4,6 +4,7 @@ import { GameSessionResponse } from '../Models/models';
 
 interface GameListProps {
   refresh: boolean;
+  onGameSelected: (game: GameSessionResponse) => void;
 }
 
 const copyToClipboard = (gameSessionId?: string) => {
@@ -18,7 +19,7 @@ const copyToClipboard = (gameSessionId?: string) => {
   }
 };
 
-function GameList({ refresh }: GameListProps) {
+function GameList({ refresh, onGameSelected }: GameListProps) {
   const [games, setGames] = useState<GameSessionResponse[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,32 +48,27 @@ function GameList({ refresh }: GameListProps) {
         <p>No games available</p>
       ) : (
         <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-          <h2>Games List</h2>
-          {games.length === 0 ? (
-            <p>No games available</p>
-          ) : (
-            <ul>
-              {games.map((gameSession) => (
-                <li key={gameSession.id}>
-                  <br />
-                  <em>Game session Id:</em> {gameSession.id ?? 'N/A'}
-                  <br />
-                  <button onClick={() => copyToClipboard(gameSession.id)}>Copy Game Session ID</button>
-                  <br />
-                  {gameSession.team1 && (
-                    <div>
-                      <strong>Team 1:</strong> {gameSession.team1.teamId}
-                    </div>
-                  )}
-                  {gameSession.team2 && (
-                    <div>
-                      <strong>Team 2:</strong> {gameSession.team2.teamId}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul>
+            {games.map((gameSession) => (
+              <li key={gameSession.id} onClick={() => onGameSelected(gameSession)}>
+                <br />
+                <em>Game session Id:</em> {gameSession.id ?? 'N/A'}
+                <br />
+                <button onClick={() => copyToClipboard(gameSession.id)}>Copy Game Session ID</button>
+                <br />
+                {gameSession.team1 && (
+                  <div>
+                    <strong>Team 1:</strong> {gameSession.team1.teamId}
+                  </div>
+                )}
+                {gameSession.team2 && (
+                  <div>
+                    <strong>Team 2:</strong> {gameSession.team2.teamId}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

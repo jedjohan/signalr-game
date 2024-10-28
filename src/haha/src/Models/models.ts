@@ -40,6 +40,17 @@ interface TravelruleResponse {
   unit?: string;
 }
 
+type SessionStatus = 'None' | 'CaptainsSelected' | 'NotStarted' | 'Started' | 'Paused' | 'Finished';
+
+const sessionStatusMapping: { [key: number]: SessionStatus } = {
+  0: 'None',
+  1: 'CaptainsSelected',
+  2: 'NotStarted',
+  3: 'Started',
+  4: 'Paused',
+  5: 'Finished'
+};
+
 interface GameSessionResponse {
   mapId?: string;
   id?: string;
@@ -52,12 +63,15 @@ interface GameSessionResponse {
   gameStartTime: Date;
   gameEndTime: Date;
   gameLength: number;
-  sessionStatus: SessionStatus;
+  sessionStatus: number; // Change this to a number
   startingAreaId?: string;
 }
 
-type SessionStatus = 'None' | 'CaptainsSelected' | 'NotStarted' | 'Started' | 'Paused';
-
-
-
-  export { type TeamResponse, type GameSessionResponse, type TravelruleResponse, type AreaInSession, type GeoPoint };
+export {
+  type TeamResponse,
+  type GameSessionResponse,
+  type TravelruleResponse,
+  type AreaInSession,
+  type GeoPoint,
+  sessionStatusMapping
+};

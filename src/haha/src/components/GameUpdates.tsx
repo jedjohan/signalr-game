@@ -1,10 +1,9 @@
 import React from 'react';
+import { useGlobalState } from '../context/GlobalStateContext';
 
-interface GameUpdatesProps {
-  gameUpdates: { data: any }[];
-}
+const GameUpdates: React.FC = () => {
+  const { gameUpdates } = useGlobalState();
 
-const GameUpdates: React.FC<GameUpdatesProps> = ({ gameUpdates }) => {
   return (
     <div>
       <h3>Game Updates</h3>

@@ -21,6 +21,7 @@ interface TeamResponse {
   teamCanTravel: boolean;
   activeChallengeId?: string;
   teamBudget: number;
+  connectionIds?: string[];
 }
 
 interface AreaInSession {

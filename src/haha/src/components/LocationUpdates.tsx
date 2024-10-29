@@ -1,20 +1,25 @@
 import React from 'react';
 
+export interface LocationUpdateData { // Add export here
+  Name: string;
+  Location: any;
+}
+
 interface LocationUpdatesProps {
-  locationUpdates: { teamName: string; location: any }[];
+  locationUpdates: LocationUpdateData[];
 }
 
 const LocationUpdates: React.FC<LocationUpdatesProps> = ({ locationUpdates }) => {
   return (
     <div>
       <h3>Location Updates</h3>
-      <div className="gameupdates">
+      <div className="locationupdates">
         <ul className="location-list">
           {locationUpdates.slice(0, 30).map((update, index) => (
             <li key={index} className="location-item">
-              <strong>Team:</strong> {update.teamName}
+              <strong>Team:</strong> {update.Name}
               <br />
-              <strong>Location (GeoJSON):</strong> {JSON.stringify(update.location, null, 2)}
+              <strong>Location:</strong> {JSON.stringify(update.Location)}
             </li>
           ))}
         </ul>

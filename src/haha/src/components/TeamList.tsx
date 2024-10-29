@@ -11,16 +11,6 @@ function TeamList ({ refresh }: TeamListProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const copyToClipboard = (teamId?: string) => {
-    navigator.clipboard.writeText(teamId!)
-      .then(() => {
-        console.log(`Copied Team ID: ${teamId}`);
-      })
-      .catch((err) => {
-        console.error('Failed to copy: ', err);
-      });
-  };
-
   useEffect(() => {
     const getTeams = async () => {
       try {
@@ -53,8 +43,6 @@ function TeamList ({ refresh }: TeamListProps) {
                 <br />
                 <em>TeamId:</em> {team.teamId} {/* Render the team ID */}
                 <br />
-                {/* Button to copy the team ID */}
-                <button onClick={() => copyToClipboard(team.teamId)}>Copy Team ID</button>
               </li>
             ))}
           </ul>

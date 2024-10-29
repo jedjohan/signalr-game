@@ -6,52 +6,54 @@ import GetGameStatus from './components/GetGameStatus';
 import GameUpdates from './components/GameUpdates';
 import LocationUpdates from './components/LocationUpdates';
 import GameList from './components/GameList';
-import GameDetails from './components/GameDetails'; // Import the new component
-import TeamDetails from './components/TeamDetails'; // Import the new component
+import GameDetails from './components/GameDetails';
+import TeamDetails from './components/TeamDetails';
 import { GameSessionResponse } from './Models/models';
 import { useGlobalState } from './context/GlobalStateContext';
 
+interface LocationUpdateData {
+  Name: string;
+  Location: any;
+}
+
 function App() {
-  const { events } = Connector();
+  const { events } = Connector
   const [message, setMessage] = useState('initial value');
   const [refreshGames, setRefreshGames] = useState(false);
-  const [locationUpdates, setLocationUpdates] = useState<{ teamName: string; location: any }[]>([]);
-  const [gameUpdates, setGameUpdates] = useState<{ data: any }[]>([]);
+  const [locationUpdates, setLocationUpdates] = useState<LocationUpdateData[]>([]);
+  const { joinedTeamId, setJoinedTeamId, setGameUpdates } = useGlobalState();
   const [selectedGame, setSelectedGame] = useState<GameSessionResponse | null>(null);
-  const { joinedTeamId, setJoinedTeamId } = useGlobalState();
 
   useEffect(() => {
     events(
-      (event, data) => setMessage(data),
-      (locationUpdate) => {
+      (username, message) => {
+        setMessage(`${username}: ${message}`);
+      },
+      (data: any) => {
         try {
-          const parsedData = typeof locationUpdate === 'string' ? JSON.parse(locationUpdate) : locationUpdate;
-          const { Name: teamName, Location: location } = parsedData;
-          setLocationUpdates((prevUpdates) => [...prevUpdates, { teamName, location }]);
+          const parsedData: LocationUpdateData = JSON.parse(data);
+          setLocationUpdates((prevUpdates) => [...prevUpdates, parsedData]);
         } catch (error) {
           console.error('Error handling location update:', error);
         }
       },
       (gameData) => {
-        console.log('Game update received:', gameData);
         setGameUpdates((prevUpdates) => [...prevUpdates, { data: gameData }]);
       },
       (gameJoinedData) => {
+        setGameUpdates((prevUpdates) => [...prevUpdates, { data: gameJoinedData }]);
         console.log('Game joined update received:', gameJoinedData);
       }
     );
-  }, [events]);
+  }, [events, setGameUpdates]);  
 
   const handleGameStatusReceived = (game: GameSessionResponse) => {
     setSelectedGame(game);
   };
 
-  const handleJoinTeam = (teamId: string | undefined) => {
-    setJoinedTeamId(teamId || null);
+  const handleJoinTeam = (teamId: string) => {
+    setJoinedTeamId(teamId);
     console.log(`${teamId} has been joined and global var is now ${joinedTeamId}`);
-    if (teamId) {
-      window.location.href = '/games/joinedGame';
-    }
   };
 
   return (
@@ -67,7 +69,7 @@ function App() {
       </div>
       <div className="center-column">
         {selectedGame && <GameDetails selectedGame={selectedGame} handleJoinTeam={handleJoinTeam} />}
-        <GameUpdates gameUpdates={gameUpdates} />
+        <GameUpdates />
       </div>
       <div className="right-column">
         <TeamDetails selectedGame={selectedGame} />

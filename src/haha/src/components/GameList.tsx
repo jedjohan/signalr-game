@@ -7,7 +7,10 @@ interface GameListProps {
   onGameSelected: (game: GameSessionResponse) => void;
 }
 
-const copyToClipboard = (gameSessionId?: string) => {
+const copyToClipboard = (gameSessionId?: string, event?: React.MouseEvent) => {
+  if (event) {
+    event.stopPropagation(); // Prevent event propagation
+  }
   if (gameSessionId) {
     navigator.clipboard.writeText(gameSessionId)
       .then(() => {
@@ -54,7 +57,9 @@ function GameList({ refresh, onGameSelected }: GameListProps) {
                 <br />
                 <em>Game session Id:</em> {gameSession.id ?? 'N/A'}
                 <br />
-                <button onClick={() => copyToClipboard(gameSession.id)}>Copy Game Session ID</button>
+                <em>Map: </em> {gameSession.mapId ?? 'N/A'}
+                <br />
+                <button onClick={(event) => copyToClipboard(gameSession.id, event)}>Copy Game Session ID</button>
                 <br />
                 {gameSession.team1 && (
                   <div>

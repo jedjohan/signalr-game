@@ -42,7 +42,7 @@ class Connector {
     // Ensure events are only initialized once
     this.events = (onMessageReceived, onLocationUpdated, onGameCreated, onPlayerJoined) => {
       if (!this.eventsInitialized) {
-        this.connection.on("ReceiveMessage", (username, message) => {
+        this.connection.on("ConnectedDevice", (username, message) => {
           console.log(`Received message from ${username}: ${message}`);
           onMessageReceived(username, message);
         });

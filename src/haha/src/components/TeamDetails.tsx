@@ -22,7 +22,7 @@ const TeamDetails: React.FC<TeamDetailsProps> = ({ selectedGame }) => {
         <p>Team Captain selected: {formatBoolean(selectedGame.team1?.captainSelected)}</p>
         <p>Team can travel?: {formatBoolean(selectedGame.team1?.teamCanTravel)}</p>
         <p>Team is ready to start game?: {formatBoolean(selectedGame.team1?.teamIsReadyToStart)}</p>
-        <p>Connected devices: {selectedGame.team1?.connectionIds}</p>
+        <p>Connected devices: {selectedGame.team1?.connectionIds?.join(', ')}</p>
         {/* Add more details as needed */}
       </div>
       <div className="team">
@@ -33,7 +33,7 @@ const TeamDetails: React.FC<TeamDetailsProps> = ({ selectedGame }) => {
         <p>Team Captain selected: {formatBoolean(selectedGame.team2?.captainSelected)}</p>
         <p>Team can travel?: {formatBoolean(selectedGame.team2?.teamCanTravel)}</p>
         <p>Team is ready to start game?: {formatBoolean(selectedGame.team2?.teamIsReadyToStart)}</p>
-        <p>Connected devices: {selectedGame.team2?.connectionIds}</p>
+        <p>Connected devices: {selectedGame.team2?.connectionIds?.join(', ')}</p>
       </div>
     </div>
   );

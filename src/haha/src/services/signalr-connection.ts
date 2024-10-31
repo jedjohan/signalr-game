@@ -2,6 +2,7 @@ import * as signalR from "@microsoft/signalr";
 import { LocationUpdateData } from '../components/LocationUpdates';
 
 const URL = process.env.HUB_ADDRESS ?? "https://localhost:8080/hub";
+const CONNECT_URL = 'https://localhost:8080/connect';
 
 class Connector {
   private connection: signalR.HubConnection;
@@ -34,10 +35,29 @@ class Connector {
     });
 
     this.connection.start()
-      .then(() => {
+    .then(() => {
+        fetch(`${CONNECT_URL}`, {
+            method: 'GET',
+            headers: {
+                "device-id": "dacoolheaderdeviceid"
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("GET request successful, data received:", data);
+            })
+            .catch(error => {
+                console.error("Error with GET request:", error);
+            });
+
         console.log("Connected to SignalR hub");
-      })
-      .catch(err => document.write(err));
+    })
+    .catch(err => document.write(err));
 
     // Ensure events are only initialized once
     this.events = (onMessageReceived, onLocationUpdated, onGameCreated, onPlayerJoined) => {

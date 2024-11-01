@@ -60,6 +60,29 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
   }
 };
 
+export const takeNewChallenge = async (gameSessionId: string, teamId: string, deviceId: string, location: { type: string, coordinates: number[] }): Promise<void> => {
+  const challengeData = {
+    deviceId,
+    location
+  };
+
+  console.log('Requesting new challenge with location:', JSON.stringify(challengeData)); // Log the data
+
+  const response = await fetch(`https://localhost:8080/${gameSessionId}/teams/${teamId}/newchallenge`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'device-id': deviceId
+    },
+    body: JSON.stringify(challengeData)
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+};
+
+
 export const deleteTeam = async (id: string): Promise<void> => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: 'DELETE',

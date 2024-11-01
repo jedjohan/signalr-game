@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getPlayerName } from '../../services/DeviceId';
 import { createGame } from '../../services/GameService';
 
 interface CreateGameProps {
@@ -13,7 +14,7 @@ const CreateGame: React.FC<CreateGameProps> = ({ setRefreshGames }) => {
   const handleCreateGame = async () => {
     setError(null);
     try {
-      await createGame(newMapId, newGameLength);
+      await createGame(newMapId, newGameLength, getPlayerName());
       setRefreshGames(true);
     } catch (error: any) {
       setError(error.message);

@@ -20,7 +20,8 @@ class Connector {
   private constructor() {
     const builder = new signalR.HubConnectionBuilder()
       .withUrl(URL)
-      .withStatefulReconnect({ bufferSize: 1000 });
+      .configureLogging(signalR.LogLevel.Information)
+      .withAutomaticReconnect();
     this.connection = builder.build();
 
     this.connection.onreconnecting((error) => {

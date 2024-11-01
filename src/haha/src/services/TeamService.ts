@@ -15,10 +15,15 @@ export const fetchTeams = async (): Promise<any[]> => {
   return teams || [];
 };
 
-export const joinTeam = async (teamId: string): Promise<void> => {
+export const joinTeam = async (teamId: string, playerName: string): Promise<void> => {
+  const teamData = {
+    name: playerName
+  };
+
   const response = await fetch(`${BASE_URL}/join/${teamId}`, {
     method: 'POST',
     headers: getHeaders(),
+    body: JSON.stringify(teamData),
   });
 
   if (!response.ok) {
@@ -37,9 +42,10 @@ export const leaveTeam = async (teamId: string): Promise<void> => {
   }
 };
 
-export const createTeam = async (teamName: string): Promise<void> => {
+export const createTeam = async (teamName: string, playerName: string): Promise<void> => {
   const teamData = {
-    name: teamName
+    name: teamName,
+    playerName
   };
 
   const response = await fetch(`${BASE_URL}/create`, {

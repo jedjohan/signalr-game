@@ -1,5 +1,5 @@
 import { GameSessionResponse, ChallengeResponse } from '../Models/models';
-import { getHeaders } from './DeviceId';
+import { getHeaders, getPlayerName } from './DeviceId';
 
 const BASE_URL = 'https://localhost:8080/games';
 
@@ -29,10 +29,11 @@ export const getChallenge = async (mapId: string, challengeId: string): Promise<
   return challenge || {};
 };
 
-export const createGame = async (mapId: string, gameLength: number): Promise<void> => {
+export const createGame = async (mapId: string, gameLength: number, playerName: string): Promise<void> => {
   const gameData = {
     mapId,
-    gameLength
+    gameLength,
+    playerName,
   };
 
   const response = await fetch(`${BASE_URL}/create`, {
@@ -50,6 +51,7 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
   const gameData = {
     gameSessionId,
     teamId,
+    playerName: getPlayerName()
   };
 
   const response = await fetch(`https://localhost:8080/games/${gameSessionId}/${teamId}`, {

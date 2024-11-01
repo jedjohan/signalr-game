@@ -1,37 +1,50 @@
-import { TeamResponse } from '../Models/models';
+import { getHeaders } from './DeviceId';
 
-const BASE_URL = 'https://localhost:8080/teams/';
-const temporaryDeviceId = 'dacoolheaderdeviceid';
+const BASE_URL = 'https://localhost:8080/teams';
 
-// Fetch teams and return as Team[]
-export const fetchTeams = async (): Promise<TeamResponse[]> => {
-  const response = await fetch(`${BASE_URL}`);
+export const fetchTeams = async (): Promise<any[]> => {
+  const response = await fetch(`${BASE_URL}`, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch teams');
   }
 
-  // Parse the JSON response and ensure it returns an array of Team objects
-  const teams: TeamResponse[] = await response.json();
-
-  // Return either the list of teams or an empty array
+  const teams: any[] = await response.json();
   return teams || [];
 };
 
-export const createTeam = async (name: string, description: string): Promise<void> => {
+export const joinTeam = async (teamId: string): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/join/${teamId}`, {
+    method: 'POST',
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+};
+
+export const leaveTeam = async (teamId: string): Promise<void> => {
+  const response = await fetch(`${BASE_URL}/leave/${teamId}`, {
+    method: 'POST',
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+};
+
+export const createTeam = async (teamName: string): Promise<void> => {
   const teamData = {
-    name,
-    description,
+    name: teamName
   };
 
-  console.log('team name:', name); // Log the response
-  console.log('json:', JSON.stringify(teamData)); // Log the response
-
-  const response = await fetch(`${BASE_URL}`, {
+  const response = await fetch(`${BASE_URL}/create`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'device-id': temporaryDeviceId
-    },
+    headers: getHeaders(),
     body: JSON.stringify(teamData),
   });
 

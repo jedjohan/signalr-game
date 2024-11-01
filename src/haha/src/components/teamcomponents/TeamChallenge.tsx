@@ -17,7 +17,7 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
     try {
       const location = defaultLocation; // Use default location for now
       if (gameSessionId && teamId) {
-        const gameSession = await takeNewChallenge(gameSessionId, teamId, deviceId, location);
+        const gameSession = await takeNewChallenge(gameSessionId, teamId, location);
         setChallenge(await getChallenge("lcc001", gameSession.team1?.activeChallengeId!));
       }
       console.log('New challenge requested successfully');

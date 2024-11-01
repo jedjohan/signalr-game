@@ -1,27 +1,31 @@
 import { GameSessionResponse, ChallengeResponse } from '../Models/models';
+import { getHeaders } from './DeviceId';
 
 const BASE_URL = 'https://localhost:8080/games';
-const temporaryDeviceId = 'dacoolheaderdeviceid';
 
 export const fetchGames = async (): Promise<GameSessionResponse[]> => {
-  const response = await fetch(`${BASE_URL}`);
+  const response = await fetch(`${BASE_URL}`, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch teams');
+    throw new Error('Failed to fetch games');
   }
 
   const games: GameSessionResponse[] = await response.json();
-
   return games || [];
 };
 
 export const getChallenge = async (mapId: string, challengeId: string): Promise<ChallengeResponse> => {
-  const response = await fetch(`https://localhost:8080/maps/${mapId}/challenge/${challengeId}`);
+  const response = await fetch(`https://localhost:8080/maps/${mapId}/challenge/${challengeId}`, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
   if (!response.ok) {
-    throw new Error('Failed to fetch teams');
+    throw new Error('Failed to fetch challenge');
   }
 
   const challenge: ChallengeResponse = await response.json();
-
   return challenge || {};
 };
 
@@ -33,10 +37,7 @@ export const createGame = async (mapId: string, gameLength: number): Promise<voi
 
   const response = await fetch(`${BASE_URL}/create`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'device-id': temporaryDeviceId
-    },
+    headers: getHeaders(),
     body: JSON.stringify(gameData),
   });
 
@@ -53,10 +54,7 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
 
   const response = await fetch(`https://localhost:8080/games/${gameSessionId}/${teamId}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'device-id': temporaryDeviceId
-    },
+    headers: getHeaders(),
     body: JSON.stringify(gameData),
   });
 
@@ -65,9 +63,8 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
   }
 };
 
-export const takeNewChallenge = async (gameSessionId: string, teamId: string, deviceId: string, location: { type: string, coordinates: number[] }): Promise<GameSessionResponse> => {
+export const takeNewChallenge = async (gameSessionId: string, teamId: string, location: { type: string, coordinates: number[] }): Promise<GameSessionResponse> => {
   const challengeData = {
-    deviceId,
     location
   };
 
@@ -75,21 +72,17 @@ export const takeNewChallenge = async (gameSessionId: string, teamId: string, de
 
   const response = await fetch(`https://localhost:8080/${gameSessionId}/teams/${teamId}/newchallenge`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'device-id': deviceId
-    },
-    body: JSON.stringify(challengeData)
+    headers: getHeaders(),
+    body: JSON.stringify(challengeData),
   });
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const gameSessionResponse: GameSessionResponse = await response.json();
-  return gameSessionResponse;
+  const gameSession: GameSessionResponse = await response.json();
+  return gameSession;
 };
-
 
 export const deleteTeam = async (id: string): Promise<void> => {
   const response = await fetch(`${BASE_URL}/${id}`, {
@@ -117,4 +110,3 @@ export const getGameStatus = async (gameSessionId: string): Promise<GameSessionR
 
   return gameSession;
 };
-

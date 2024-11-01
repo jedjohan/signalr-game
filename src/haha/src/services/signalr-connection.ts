@@ -1,5 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 import { LocationUpdateData } from '../components/mainappcomponents/LocationUpdates';
+import { getHeaders } from './DeviceId';
 
 const URL = process.env.HUB_ADDRESS ?? "https://localhost:8080/hub";
 const CONNECT_URL = 'https://localhost:8080/connect';
@@ -38,9 +39,7 @@ class Connector {
     .then(() => {
         fetch(`${CONNECT_URL}`, {
             method: 'GET',
-            headers: {
-                "device-id": "dacoolheaderdeviceid"
-            }
+            headers: getHeaders()
         })
             .then(response => {
                 if (!response.ok) {

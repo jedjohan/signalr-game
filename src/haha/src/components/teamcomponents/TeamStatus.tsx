@@ -5,9 +5,10 @@ import { TeamResponse, GameSessionResponse } from '../../Models/models';
 interface TeamStatusProps {
   gameSessionId?: string;
   teamId?: string;
+  setChallengeId: React.Dispatch<React.SetStateAction<string | undefined>>; // Add this prop
 }
 
-const TeamStatus: React.FC<TeamStatusProps> = ({ gameSessionId, teamId }) => {
+const TeamStatus: React.FC<TeamStatusProps> = ({ gameSessionId, teamId, setChallengeId }) => {
   const [teamResponse, setTeamResponse] = useState<TeamResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,13 +19,16 @@ const TeamStatus: React.FC<TeamStatusProps> = ({ gameSessionId, teamId }) => {
         const gameStatus: GameSessionResponse = await getGameStatus(gameSessionId);
         const team = gameStatus.team1?.id === teamId ? gameStatus.team1 : gameStatus.team2;
         setTeamResponse(team || null);
+        if (team?.activeChallengeId) {
+          setChallengeId(team.activeChallengeId); // Set the challenge ID
+        }
       } catch (err: any) {
         setError(err.message);
       }
     };
-    
+
     fetchTeamStatus();
-  }, [gameSessionId, teamId]);
+  }, [gameSessionId, teamId, setChallengeId]);
 
   if (error) {
     return <p>Error: {error}</p>;

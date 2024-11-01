@@ -1,4 +1,4 @@
-import { GameSessionResponse } from '../Models/models';
+import { GameSessionResponse, ChallengeResponse } from '../Models/models';
 
 const BASE_URL = 'https://localhost:8080/games';
 const temporaryDeviceId = 'dacoolheaderdeviceid';
@@ -14,14 +14,22 @@ export const fetchGames = async (): Promise<GameSessionResponse[]> => {
   return games || [];
 };
 
+export const getChallenge = async (mapId: string, challengeId: string): Promise<ChallengeResponse> => {
+  const response = await fetch(`https://localhost:8080/maps/${mapId}/challenge/${challengeId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch teams');
+  }
+
+  const challenge: ChallengeResponse = await response.json();
+
+  return challenge || {};
+};
+
 export const createGame = async (mapId: string, gameLength: number): Promise<void> => {
   const gameData = {
     mapId,
     gameLength
   };
-
-  console.log('game created, gameId:', mapId); // Log the response
-  console.log('json:', JSON.stringify(gameData)); // Log the response
 
   const response = await fetch(`${BASE_URL}/create`, {
     method: 'POST',
@@ -43,9 +51,6 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
     teamId,
   };
 
-  console.log('game joined, gameId:', gameSessionId); // Log the response
-  console.log('json:', JSON.stringify(gameData)); // Log the response
-
   const response = await fetch(`https://localhost:8080/games/${gameSessionId}/${teamId}`, {
     method: 'POST',
     headers: {
@@ -60,7 +65,7 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
   }
 };
 
-export const takeNewChallenge = async (gameSessionId: string, teamId: string, deviceId: string, location: { type: string, coordinates: number[] }): Promise<void> => {
+export const takeNewChallenge = async (gameSessionId: string, teamId: string, deviceId: string, location: { type: string, coordinates: number[] }): Promise<GameSessionResponse> => {
   const challengeData = {
     deviceId,
     location
@@ -80,6 +85,9 @@ export const takeNewChallenge = async (gameSessionId: string, teamId: string, de
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
+
+  const gameSessionResponse: GameSessionResponse = await response.json();
+  return gameSessionResponse;
 };
 
 

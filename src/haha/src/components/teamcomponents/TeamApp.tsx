@@ -31,7 +31,7 @@ const TeamApp: React.FC = () => {
   return (
     <div className="team-app">
       <div className="left-column">
-        <TeamStatus gameSessionId={gameSessionId} teamId={teamId} />
+        <TeamStatus gameSessionId={gameSessionId} teamId={teamId} setChallengeId={setChallengeId} />
       </div>
       <div className="center-column">
         <TeamChallenge gameSessionId={gameSessionId} teamId={teamId} challengeId={challengeId} />

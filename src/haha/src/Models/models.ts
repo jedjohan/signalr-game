@@ -67,6 +67,21 @@ interface GameSessionResponse {
   startingAreaId?: string;
 }
 
+interface ChallengeResponse {
+  mapId?: string;
+  challengeId?: string;
+  title?: string;
+  description?: string;
+  points: number;
+  failureTime: number;
+  probabilitySucceeding: number;
+  expectedDuration: number;
+  areaId?: string;
+  requiredPlayers: number;
+  estimatedCostInLocalCurrency: number;
+  rankingPoints: number;
+}
+
 export {
   type TeamResponse,
   type GameSessionResponse,
@@ -74,5 +89,6 @@ export {
   type AreaInSession,
   type GeoPoint,
   type SessionStatus,
+  type ChallengeResponse,
   sessionStatusMapping
 };

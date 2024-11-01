@@ -11,7 +11,7 @@ class Connector {
 
   public events: (
     onMessageReceived: (username: string, message: string) => void,
-    onLocationUpdated: (data: LocationUpdateData) => void,
+    onTeamUpdated: (data: LocationUpdateData) => void,
     onGameCreated: (gameData: any) => void,
     onPlayerJoined: (gameData: any) => void,
   ) => void;
@@ -60,7 +60,7 @@ class Connector {
     .catch(err => document.write(err));
 
     // Ensure events are only initialized once
-    this.events = (onMessageReceived, onLocationUpdated, onGameCreated, onPlayerJoined) => {
+    this.events = (onMessageReceived, onTeamUpdated, onGameCreated, onPlayerJoined) => {
       if (!this.eventsInitialized) {
         this.connection.on("ConnectedDevice", (username, message) => {
           console.log(`Received message from ${username}: ${message}`);
@@ -70,7 +70,13 @@ class Connector {
         this.connection.on("LocationUpdate", (data) => {
           const parsedData: LocationUpdateData = JSON.parse(data);
           console.log(parsedData);
-          onLocationUpdated(parsedData);
+          onTeamUpdated(parsedData);
+        });
+
+        this.connection.on("TookNewChallenge", (data) => {
+          const parsedData: LocationUpdateData = JSON.parse(data);
+          console.log(parsedData);
+          onTeamUpdated(parsedData);
         });
 
         this.connection.on("GameCreated", (gameData) => {

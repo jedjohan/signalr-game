@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTeams } from '../services/TeamService';
-import { TeamResponse } from '../Models/models';
+import { fetchTeams } from '../../services/TeamService';
+import { TeamResponse } from '../../Models/models';
 
 interface TeamListProps {
   refresh: boolean;
@@ -38,10 +38,10 @@ function TeamList ({ refresh }: TeamListProps) {
         <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
           <ul>
             {teams.map((team) => (
-              <li key={team.teamId}>
+              <li key={team.id}>
                 <strong>{team.teamName}</strong>
                 <br />
-                <em>TeamId:</em> {team.teamId} {/* Render the team ID */}
+                <em>TeamId:</em> {team.id} {/* Render the team ID */}
                 <br />
               </li>
             ))}

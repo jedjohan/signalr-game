@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { fetchGames } from '../services/GameService';
-import { GameSessionResponse } from '../Models/models';
+import { fetchGames } from '../../services/GameService';
+import { GameSessionResponse } from '../../Models/models';
 
 interface GameListProps {
   refresh: boolean;
@@ -63,12 +63,12 @@ function GameList({ refresh, onGameSelected }: GameListProps) {
                 <br />
                 {gameSession.team1 && (
                   <div>
-                    <strong>Team 1:</strong> {gameSession.team1.teamId}
+                    <strong>Team 1:</strong> {gameSession.team1.id}
                   </div>
                 )}
                 {gameSession.team2 && (
                   <div>
-                    <strong>Team 2:</strong> {gameSession.team2.teamId}
+                    <strong>Team 2:</strong> {gameSession.team2.id}
                   </div>
                 )}
               </li>

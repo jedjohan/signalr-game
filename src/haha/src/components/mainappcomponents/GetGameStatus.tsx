@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getGameStatus } from '../services/GameService';
-import { GameSessionResponse } from '../Models/models';
+import { getGameStatus } from '../../services/GameService';
+import { GameSessionResponse } from '../../Models/models';
 
 interface GetGameStatusProps {
   onGameStatusReceived: (game: GameSessionResponse) => void;

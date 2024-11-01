@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createGame } from '../services/GameService';
+import { createGame } from '../../services/GameService';
 
 interface CreateGameProps {
   setRefreshGames: (value: boolean) => void;

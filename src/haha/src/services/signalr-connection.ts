@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-import { LocationUpdateData } from '../components/LocationUpdates';
+import { LocationUpdateData } from '../components/mainappcomponents/LocationUpdates';
 
 const URL = process.env.HUB_ADDRESS ?? "https://localhost:8080/hub";
 const CONNECT_URL = 'https://localhost:8080/connect';

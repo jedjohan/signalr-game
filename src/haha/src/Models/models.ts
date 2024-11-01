@@ -4,7 +4,7 @@ interface GeoPoint {
 }
 
 interface TeamResponse {
-  teamId?: string;
+  id?: string;
   teamScore: number;
   captainSelected: boolean;
   captainId?: string;
@@ -21,7 +21,6 @@ interface TeamResponse {
   teamCanTravel: boolean;
   activeChallengeId?: string;
   teamBudget: number;
-  connectionIds?: string[];
 }
 
 interface AreaInSession {

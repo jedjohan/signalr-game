@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGlobalState } from '../context/GlobalStateContext';
+import { useGlobalState } from '../../context/GlobalStateContext';
 
 const GameUpdates: React.FC = () => {
   const { gameUpdates } = useGlobalState();

@@ -1,0 +1,15 @@
+/* CSS file */
+
+.team-app {
+  display: flex;
+}
+
+.left-column,
+.center-column,
+.right-column {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px; /* Add some margin for spacing between columns */
+}

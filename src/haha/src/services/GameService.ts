@@ -1,6 +1,7 @@
 import { GameSessionResponse } from '../Models/models';
 
 const BASE_URL = 'https://localhost:8080/games';
+const temporaryDeviceId = 'dacoolheaderdeviceid';
 
 export const fetchGames = async (): Promise<GameSessionResponse[]> => {
   const response = await fetch(`${BASE_URL}`);
@@ -26,6 +27,7 @@ export const createGame = async (mapId: string, gameLength: number): Promise<voi
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'device-id': temporaryDeviceId
     },
     body: JSON.stringify(gameData),
   });
@@ -48,6 +50,7 @@ export const joinTeamWithId = async (gameSessionId: string, teamId: string): Pro
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'device-id': temporaryDeviceId
     },
     body: JSON.stringify(gameData),
   });

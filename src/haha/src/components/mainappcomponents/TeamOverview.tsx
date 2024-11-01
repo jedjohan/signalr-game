@@ -1,12 +1,12 @@
 import React from 'react';
-import { GameSessionResponse } from '../Models/models';
-import './TeamDetails.css'; // Import the CSS file
+import { GameSessionResponse } from '../../Models/models';
+import './css/TeamDetails.css'; // Import the CSS file
 
-interface TeamDetailsProps {
+interface TeamOverviewProps {
   selectedGame: GameSessionResponse | null;
 }
 
-const TeamDetails: React.FC<TeamDetailsProps> = ({ selectedGame }) => {
+const TeamDetails: React.FC<TeamOverviewProps> = ({ selectedGame }) => {
   if (!selectedGame) return null;
 
   const formatBoolean = (value: boolean | undefined) => (value ? "Yes" : "No");
@@ -22,7 +22,6 @@ const TeamDetails: React.FC<TeamDetailsProps> = ({ selectedGame }) => {
         <p>Team Captain selected: {formatBoolean(selectedGame.team1?.captainSelected)}</p>
         <p>Team can travel?: {formatBoolean(selectedGame.team1?.teamCanTravel)}</p>
         <p>Team is ready to start game?: {formatBoolean(selectedGame.team1?.teamIsReadyToStart)}</p>
-        <p>Connected devices: {selectedGame.team1?.connectionIds?.join(', ')}</p>
         {/* Add more details as needed */}
       </div>
       <div className="team">
@@ -33,7 +32,6 @@ const TeamDetails: React.FC<TeamDetailsProps> = ({ selectedGame }) => {
         <p>Team Captain selected: {formatBoolean(selectedGame.team2?.captainSelected)}</p>
         <p>Team can travel?: {formatBoolean(selectedGame.team2?.teamCanTravel)}</p>
         <p>Team is ready to start game?: {formatBoolean(selectedGame.team2?.teamIsReadyToStart)}</p>
-        <p>Connected devices: {selectedGame.team2?.connectionIds?.join(', ')}</p>
       </div>
     </div>
   );

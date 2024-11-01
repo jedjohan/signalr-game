@@ -1,17 +1,21 @@
 import React from 'react';
-import { GameSessionResponse } from '../Models/models';
-import { joinTeamWithId } from '../services/GameService'; // Import the service method
+import { GameSessionResponse } from '../../Models/models';
+import { joinTeamWithId } from '../../services/GameService';
+import { useNavigate } from 'react-router-dom';
 
 interface GameDetailsProps {
   selectedGame: GameSessionResponse;
-  handleJoinTeam: (teamId: string) => void; // Update to expect a defined string
+  handleJoinTeam: (teamId: string) => void;
 }
 
 const GameDetails: React.FC<GameDetailsProps> = ({ selectedGame, handleJoinTeam }) => {
+  const navigate = useNavigate();
+
   const handleJoinTeamClick = async (teamId: string | undefined, teamName?: string) => {
     if (!teamId || !teamName || !selectedGame.id) return;
     await joinTeamWithId(selectedGame.id, teamId);
     handleJoinTeam(teamId);
+    navigate(`/games/${selectedGame.id}/team/${teamId}`);
   };
 
   return (
@@ -22,13 +26,13 @@ const GameDetails: React.FC<GameDetailsProps> = ({ selectedGame, handleJoinTeam 
       <p>Game Length: {selectedGame.gameLength}</p>
       <p>Game Status: {selectedGame.sessionStatus}</p>
       <p>Game score: {selectedGame.team1?.teamScore} - {selectedGame.team2?.teamScore}</p>
-      {selectedGame.team1 && selectedGame.team1.teamId && selectedGame.team1.teamName && (
-        <button onClick={() => handleJoinTeamClick(selectedGame.team1!.teamId, selectedGame.team1!.teamName)}>
+      {selectedGame.team1 && selectedGame.team1.id && selectedGame.team1.teamName && (
+        <button onClick={() => handleJoinTeamClick(selectedGame.team1!.id, selectedGame.team1!.teamName)}>
           Join {selectedGame.team1.teamName}
         </button>
       )}
-      {selectedGame.team2 && selectedGame.team2.teamId && selectedGame.team2.teamName && (
-        <button onClick={() => handleJoinTeamClick(selectedGame.team2!.teamId, selectedGame.team2!.teamName)}>
+      {selectedGame.team2 && selectedGame.team2.id && selectedGame.team2.teamName && (
+        <button onClick={() => handleJoinTeamClick(selectedGame.team2!.id, selectedGame.team2!.teamName)}>
           Join {selectedGame.team2.teamName}
         </button>
       )}

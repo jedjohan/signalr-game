@@ -1,6 +1,7 @@
 import { TeamResponse } from '../Models/models';
 
 const BASE_URL = 'https://localhost:8080/teams/';
+const temporaryDeviceId = 'dacoolheaderdeviceid';
 
 // Fetch teams and return as Team[]
 export const fetchTeams = async (): Promise<TeamResponse[]> => {
@@ -29,6 +30,7 @@ export const createTeam = async (name: string, description: string): Promise<voi
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'device-id': temporaryDeviceId
     },
     body: JSON.stringify(teamData),
   });
@@ -36,16 +38,4 @@ export const createTeam = async (name: string, description: string): Promise<voi
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
-};
-
-export const deleteTeam = async (id: string): Promise<void> => {
-  const response = await fetch(`${BASE_URL}/${id}`, {
-    method: 'DELETE',
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to delete team with ID: ${id}, status: ${response.status}`);
-  }
-
-  console.log(`Team with ID: ${id} was successfully deleted.`);
 };

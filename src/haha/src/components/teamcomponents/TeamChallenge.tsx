@@ -10,7 +10,6 @@ interface TeamChallengeProps {
 
 const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, challengeId }) => {
   const defaultLocation = { type: 'Point', coordinates: [15.567535, 35.5656356] }; // Default location
-  const deviceId = 'dacoolheaderdeviceid'; // Replace with actual deviceId
   const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
 
   const handleGetNewChallenge = async () => {
@@ -18,7 +17,8 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
       const location = defaultLocation; // Use default location for now
       if (gameSessionId && teamId) {
         const gameSession = await takeNewChallenge(gameSessionId, teamId, location);
-        setChallenge(await getChallenge("lcc001", gameSession.team1?.activeChallengeId!));
+        const mapId = gameSession.team1?.activeChallengeId!.split('-')[0];
+        setChallenge(await getChallenge(mapId!, gameSession.team1?.activeChallengeId!));
       }
       console.log('New challenge requested successfully');
     } catch (error) {
@@ -31,7 +31,7 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
       try {
         if (challengeId) {
           console.log('Fetching challenge details for challenge ID:', challengeId); // Log trigger
-          const challengeDetails: ChallengeResponse = await getChallenge("lcc001", challengeId);
+          const challengeDetails: ChallengeResponse = await getChallenge(challengeId.split('-')[0], challengeId);
           setChallenge(challengeDetails);
         }
       } catch (error) {

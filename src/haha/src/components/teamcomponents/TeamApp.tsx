@@ -10,6 +10,7 @@ import './TeamApp.css';
 const TeamApp: React.FC = () => {
   const { gameSessionId, teamId } = useParams<{ gameSessionId: string; teamId: string }>();
   const [challengeId, setChallengeId] = useState<string | undefined>();
+  const [teamCaptainId, setTeamCaptainId] = useState<string | undefined>();
 
   useEffect(() => {
     const fetchTeamStatus = async () => {
@@ -17,6 +18,9 @@ const TeamApp: React.FC = () => {
         if (!gameSessionId || !teamId) return;
         const gameStatus: GameSessionResponse = await getGameStatus(gameSessionId);
         const team = gameStatus.team1?.id === teamId ? gameStatus.team1 : gameStatus.team2;
+        if (team?.captainId) {
+          setTeamCaptainId(team.captainId)
+        }
         if (team?.activeChallengeId) {
           setChallengeId(team.activeChallengeId);
         }
@@ -34,7 +38,7 @@ const TeamApp: React.FC = () => {
         <TeamStatus gameSessionId={gameSessionId} teamId={teamId} setChallengeId={setChallengeId} />
       </div>
       <div className="center-column">
-        <TeamChallenge gameSessionId={gameSessionId} teamId={teamId} challengeId={challengeId} />
+        <TeamChallenge gameSessionId={gameSessionId} teamId={teamId} challengeId={challengeId} teamCaptainId={teamCaptainId} />
       </div>
       <div className="right-column">
         <TeamTravel gameSessionId={gameSessionId} teamId={teamId} />

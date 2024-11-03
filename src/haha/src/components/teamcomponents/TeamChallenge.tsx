@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { takeNewChallenge, getChallenge } from '../../services/GameService'; // Adjust the import path as needed
+import { takeNewChallenge, getChallenge, takeNewChallengeAsCaptain } from '../../services/GameService'; // Adjust the import path as needed
 import { ChallengeResponse } from '../../Models/models';
 
 interface TeamChallengeProps {
   gameSessionId?: string;
   teamId?: string;
   challengeId?: string; // Add the challengeId prop
+  teamCaptainId?: string;
 }
 
-const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, challengeId }) => {
+const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, challengeId, teamCaptainId }) => {
   const defaultLocation = { type: 'Point', coordinates: [15.567535, 35.5656356] }; // Default location
   const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
 
@@ -25,6 +26,30 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
       console.error('Failed to request new challenge:', error);
     }
   };
+
+  const handleGetNewChallengeAsCaptain = async () => {
+    try {
+      const location = defaultLocation; // Use default location for now
+      if (gameSessionId && teamId && teamCaptainId) {
+        const gameSession = await takeNewChallengeAsCaptain(gameSessionId, teamId, teamCaptainId, location);
+        const mapId = gameSession.team1?.activeChallengeId!.split('-')[0];
+        setChallenge(await getChallenge(mapId!, gameSession.team1?.activeChallengeId!));
+      }
+      console.log('New challenge requested successfully');
+    } catch (error) {
+      console.error('Failed to request new challenge:', error);
+    }
+  };
+
+  const handleChallengeOutcome = async () => {
+    try {
+      // call endpoint
+      // update team information such as points, team can travel and in case locked end time needs a change
+      // event listener should update game with interesting update
+    } catch (error) {
+        
+    }
+  }
 
   useEffect(() => {
     const fetchChallengeDetails = async () => {
@@ -46,6 +71,8 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
     <div>
       <h2>Team Challenge</h2>
       <button onClick={handleGetNewChallenge}>Get New Challenge</button>
+      <button onClick={handleGetNewChallengeAsCaptain}>Get New Challenge with forced captainId</button>
+      <button onClick={handleChallengeOutcome}> Report challenge results as forced captain</button>
       <h3>Current challenge</h3>
       <p>Game Session ID: {gameSessionId}</p>
       <p>Team ID: {teamId}</p>

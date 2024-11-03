@@ -5,7 +5,7 @@ import TeamChallenge from './TeamChallenge';
 import TeamTravel from './TeamTravel';
 import { getGameStatus } from '../../services/GameService';
 import { GameSessionResponse } from '../../Models/models';
-import './TeamApp.css';
+import './css/TeamApp.css';
 
 const TeamApp: React.FC = () => {
   const { gameSessionId, teamId } = useParams<{ gameSessionId: string; teamId: string }>();

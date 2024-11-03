@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameSessionResponse } from '../../Models/models';
+import { GameSessionResponse, sessionStatusMapping } from '../../Models/models';
 import { joinTeamWithId } from '../../services/GameService';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,9 +22,9 @@ const GameDetails: React.FC<GameDetailsProps> = ({ selectedGame, handleJoinTeam 
     <div>
       <h4>Game Details</h4>
       <p>ID: {selectedGame.id}</p>
+      <p>Game status: {sessionStatusMapping[selectedGame.sessionStatus]}</p>
       <p>Map ID: {selectedGame.mapId}</p>
       <p>Game Length: {selectedGame.gameLength}</p>
-      <p>Game Status: {selectedGame.sessionStatus}</p>
       <p>Game score: {selectedGame.team1?.teamScore} - {selectedGame.team2?.teamScore}</p>
       {selectedGame.team1 && selectedGame.team1.id && selectedGame.team1.teamName && (
         <button onClick={() => handleJoinTeamClick(selectedGame.team1!.id, selectedGame.team1!.teamName)}>

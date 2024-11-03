@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { takeNewChallenge, getChallenge, takeNewChallengeAsCaptain } from '../../services/GameService'; // Adjust the import path as needed
+import { takeNewChallenge, getChallenge, takeNewChallengeAsCaptain, reportChallengeAsCaptain } from '../../services/ChallengeService'; // Adjust the import path as needed
 import { ChallengeResponse } from '../../Models/models';
 
 interface TeamChallengeProps {
@@ -43,6 +43,11 @@ const TeamChallenge: React.FC<TeamChallengeProps> = ({ gameSessionId, teamId, ch
 
   const handleChallengeOutcome = async () => {
     try {
+      if (gameSessionId && teamId && teamCaptainId && challengeId) {
+        const gameSession = await reportChallengeAsCaptain(gameSessionId, teamId, teamCaptainId, challengeId, true);
+        console.log("game session below updated");
+        console.log(gameSession);
+      }
       // call endpoint
       // update team information such as points, team can travel and in case locked end time needs a change
       // event listener should update game with interesting update

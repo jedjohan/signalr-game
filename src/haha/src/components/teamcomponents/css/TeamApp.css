@@ -2,6 +2,7 @@
 
 .team-app {
   display: flex;
+  font-size: 12px;
 }
 
 .left-column,

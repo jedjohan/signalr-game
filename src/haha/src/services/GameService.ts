@@ -65,7 +65,10 @@ export const deleteTeam = async (id: string): Promise<void> => {
 };
 
 export const getGameStatus = async (gameSessionId: string): Promise<GameSessionResponse> => {
-  const response = await fetch(`${BASE_URL}/${gameSessionId}`);
+  const response = await fetch(`${BASE_URL}/${gameSessionId}`, {
+    method: 'GET',
+    headers: getHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error('Failed to fetch game status');
